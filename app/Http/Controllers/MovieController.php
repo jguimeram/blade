@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class MovieController extends Controller
 {
@@ -34,6 +36,19 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate(
+            [
+                'title' => 'required',
+                'description' => 'required',
+                'year' => 'required',
+                'image' => 'required'
+            ]
+        );
+
+        Movie::create($request->all());
+
+        return Redirect::to('movies')->with('success', 'Movie created successfully');
     }
 
     /**
@@ -47,24 +62,42 @@ class MovieController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Movie $movie)
+    public function edit($id)
     {
-        //
+        $movie = Movie::find($id);
+        return view('movies.edit', compact('movie'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request, $id)
     {
         //
+
+        $request->validate(
+            [
+                'title' => 'required',
+                'description' => 'required',
+                'year' => 'required',
+                'image' => 'required'
+            ]
+        );
+
+        $movie = Movie::find($id);
+        $movie->update($request->all());
+
+        return Redirect::to('movies')->with('success', 'Movie updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Movie $movie)
+    public function destroy($id)
     {
         //
+        $movie = Movie::find($id);
+        $movie->delete();
+        return Redirect::to('movies')->with('success', 'Movie deleted successfully');
     }
 }

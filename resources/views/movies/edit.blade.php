@@ -7,22 +7,25 @@
 
 <div class="m-auto">
     <div class="mt-8 max-w-md m-auto">
-        <h1 class="font-bold text-gray-900 text-3xl mb-3 ">Create movie</h1>
-        <form action="{{route('movies.store')}}" method="POST" class="p-5">
+        <h1 class="font-bold text-gray-900 text-3xl mb-3 ">Edit movie</h1>
+        <form action="{{ route('movies.update', ['movie' => $movie->id]) }}" method="POST" class="p-5">
             @csrf
+            @method('PUT')
             <div class="grid grid-cols-1 gap-6">
                 <label for="title" class="block">
                     <span class="text-gray-700">Title</span>
-                    <input type="text" class="mt-1 block w-full form-input" placeholder="" name="title">
+                    <input type="text" class="mt-1 block w-full form-input" placeholder="" name="title"
+                        value="{{$movie->title}}">
                 </label>
                 <label for="description" class="block">
                     <span class="text-gray-700">Description</span>
-                    <input type="text" class="mt-1 block w-full form-input" name="description">
+                    <input type="text" class="mt-1 block w-full form-input" name="description"
+                        value="{{$movie->description}}">
                 </label>
                 <label for="year" class="block">
                     <span class="text-gray-700">Year</span>
                     <input type="number" class="mt-1 block w-full form-input" min=" 1900" max="2099" step="1"
-                        value="2016" name="year" />
+                        value="{{$movie->year}}" name="year" />
                 </label>
                 <div class="col-span-full">
                     <label for="image" class="block">
